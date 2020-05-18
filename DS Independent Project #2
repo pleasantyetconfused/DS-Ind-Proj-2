@@ -1,0 +1,27 @@
+  -- Which tracks appeared in the most playlists?
+SELECT tracks.Name, COUNT(*) AS "How many playlists" 
+FROM playlist_track
+LEFT JOIN tracks 
+  ON playlist_track.TrackId = tracks.TrackId
+GROUP BY playlist_track.TrackId
+ORDER BY 2 DESC;
+
+
+  -- Which track generated the most revenue
+SELECT tracks.name, invoice_items.TrackID, Sum(invoice_items.UnitPrice) AS 'total revenue'
+FROM invoice_items
+LEFT JOIN tracks
+  ON tracks.TrackId = invoice_items.TrackId
+GROUP BY 2
+ORDER BY 3 Desc;
+
+
+  -- Which album generated the most revenue
+SELECT albums.Title, Sum(invoice_items.UnitPrice) AS 'total revenue'
+FROM tracks
+LEFT JOIN albums 
+	ON tracks.AlbumId = albums.AlbumId
+LEFT JOIN invoice_items
+ON tracks.TrackId = invoice_items.TrackId
+GROUP BY 1
+ORDER BY 2 Desc;
